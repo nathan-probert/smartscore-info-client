@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "smartscore-info-client"
-version = "0.0.3"
+name = "smartscore_info_client"
+version = "0.0.4"
 description = ""
 authors = ["Nathan Probert <nathanprobert@rogers.com>"]
 readme = "README.md"
@@ -36,7 +36,7 @@ skip-magic-trailing-comma = false
 line-ending = "auto"
 
 [tool.pytest.ini_options]
-pythonpath = ["smartscore-info-client"]
+pythonpath = ["smartscore_info_client"]
 testpaths = ["tests/unit"]
 
 [build-system]
