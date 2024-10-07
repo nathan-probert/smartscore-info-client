@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "smartscore_info_client"
+name = "smartscore-info-client"
 version = "0.0.4"
 description = ""
 authors = ["Nathan Probert <nathanprobert@rogers.com>"]
