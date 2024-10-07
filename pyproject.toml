@@ -4,6 +4,7 @@ version = "0.0.3"
 description = ""
 authors = ["Nathan Probert <nathanprobert@rogers.com>"]
 readme = "README.md"
+packages = [{ include = "smartscore-info-client" }]
 
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -41,8 +42,3 @@ testpaths = ["tests/unit"]
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.packages]
-packages = [
-    { include = "smartscore-info-client" }
-]
