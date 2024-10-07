@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "smartscore-info-client"
-version = "0.0.1"
+version = "0.0.2"
 description = ""
 authors = ["Nathan Probert <nathanprobert@rogers.com>"]
 readme = "README.md"
