@@ -6,7 +6,9 @@ from schemas.team_info import TeamInfo, get_tgpg, get_otga
 def test_team_info_initialization(mock_get, mock_teams_api_response):
   mock_get.return_value.json.return_value = mock_teams_api_response
 
-  team = TeamInfo(name="Team A", abbr="TA", season="20232024", id=12, opponent_id=34)
+  team = TeamInfo(
+    team_name="Team A", team_abbr="TA", season="20232024", team_id=12, opponent_id=34
+  )
 
   assert team.tgpg == 3.2
   assert team.otga == 3.1

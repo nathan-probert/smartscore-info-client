@@ -15,10 +15,10 @@ class TeamInfoC(ctypes.Structure):
 
 @dataclass(frozen=True)
 class TeamInfo:
-  name: str
-  abbr: str
+  team_name: str
+  team_abbr: str
   season: str
-  id: int
+  team_id: int
   opponent_id: int
 
   tgpg: float = 0.0
@@ -32,17 +32,19 @@ class TeamInfo:
       # URL = f"https://api.nhle.com/stats/rest/en/team/summary?cayenneExp=seasonId={self.season}%20and%20gameTypeId=2"
       TeamInfo._class_data_summary = requests.get(URL, timeout=10).json()
 
-    object.__setattr__(self, "tgpg", get_tgpg(TeamInfo._class_data_summary, self.id))
+    object.__setattr__(
+      self, "tgpg", get_tgpg(TeamInfo._class_data_summary, self.team_id)
+    )
     object.__setattr__(
       self, "otga", get_otga(TeamInfo._class_data_summary, self.opponent_id)
     )
 
 
 class TeamInfoSchema(Schema):
-  name = fields.Str()
-  abbr = fields.Str()
+  team_name = fields.Str()
+  team_abbr = fields.Str()
   season = fields.Str()
-  id = fields.Int()
+  team_id = fields.Int()
   opponent_id = fields.Int()
 
   tgpg = fields.Float()
@@ -52,9 +54,9 @@ class TeamInfoSchema(Schema):
 TEAM_INFO_SCHEMA = TeamInfoSchema()
 
 
-def get_tgpg(_data, id):
+def get_tgpg(_data, team_id):
   for team in _data["data"]:
-    if team["teamId"] == id:
+    if team["teamId"] == team_id:
       return team["goalsForPerGame"]
   return 0.0
 
