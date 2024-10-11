@@ -28,8 +28,7 @@ class TeamInfo:
 
   def __post_init__(self):
     if TeamInfo._class_data_summary is None:
-      URL = "https://api.nhle.com/stats/rest/en/team/summary?cayenneExp=seasonId=20232024%20and%20gameTypeId=2"
-      # URL = f"https://api.nhle.com/stats/rest/en/team/summary?cayenneExp=seasonId={self.season}%20and%20gameTypeId=2"
+      URL = f"https://api.nhle.com/stats/rest/en/team/summary?cayenneExp=seasonId={self.season}%20and%20gameTypeId=2"
       TeamInfo._class_data_summary = requests.get(URL, timeout=10).json()
 
     object.__setattr__(

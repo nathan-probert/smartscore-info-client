@@ -24,6 +24,8 @@ class PlayerInfo:
   five_gpg: float = field(default=None)
 
   stat: float = field(default=None)
+  odds: float = field(default=None)
+  tims: bool = 0
 
   def __post_init__(self):
     if self.gpg is None:
@@ -40,6 +42,12 @@ class PlayerInfo:
   def set_stat(self, value: float):
     object.__setattr__(self, "stat", value)
 
+  def set_odds(self, value: float):
+    object.__setattr__(self, "odds", value)
+
+  def set_tims(self, value: int):
+    object.__setattr__(self, "tims", value)
+
 
 class PlayerInfoSchema(Schema):
   name = fields.Str()
@@ -49,15 +57,16 @@ class PlayerInfoSchema(Schema):
   gpg = fields.Float()
   hgpg = fields.Float()
   five_gpg = fields.Float()
+
   stat = fields.Float()
+  odds = fields.Float()
+  tims = fields.Int()
 
 
 PLAYER_INFO_SCHEMA = PlayerInfoSchema()
 
 
 def get_gpg(_data):
-  print(_data)
-  print(f"gpg: {get_hgpg(_data, 1)}")
   return get_hgpg(_data, 1)
 
 
@@ -101,7 +110,6 @@ def get_acceptable_seasons(current_season: str, years: int) -> list:
 
 
 def get_previous_season(current_season: str) -> str:
-  print(f"current_season: {current_season}")
   year_start = int(current_season[:4])
   year_end = int(current_season[4:])
 
