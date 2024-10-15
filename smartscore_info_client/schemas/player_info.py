@@ -58,9 +58,9 @@ class PlayerInfoSchema(Schema):
   hgpg = fields.Float()
   five_gpg = fields.Float()
 
-  stat = fields.Float()
-  odds = fields.Float()
-  tims = fields.Int()
+  stat = fields.Float(allow_none=True)
+  odds = fields.Float(allow_none=True)
+  tims = fields.Int(allow_none=True)
 
 
 PLAYER_INFO_SCHEMA = PlayerInfoSchema()
