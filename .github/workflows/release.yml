@@ -1,0 +1,35 @@
+name: Create release
+
+on:
+  push:
+    branches:
+      - main  # Trigger workflow when changes are pushed to the main branch.
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Release on main merge
+    runs-on: ubuntu-22.04
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Extract the version from pyproject.toml
+      - name: Extract version from pyproject.toml
+        id: extract_version
+        run: |
+          version=$(grep -Po '(?<=^version = ")[^"]*' pyproject.toml)
+          echo "tag=v$version" >> $GITHUB_ENV
+
+      # Create the release
+      - name: Create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "$tag" \
+              --repo="$GITHUB_REPOSITORY" \
+              --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
+              --generate-notes
