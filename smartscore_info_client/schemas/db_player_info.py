@@ -1,5 +1,6 @@
 import ctypes
 from dataclasses import dataclass
+from typing import Optional
 
 from marshmallow import Schema, fields
 
@@ -34,6 +35,9 @@ class PlayerDbInfo:
 
     scored: int
 
+    otshga: Optional[float] = None
+    home: Optional[bool] = None
+
 
 class PlayerDbInfoSchema(Schema):
     _id = fields.Str()
@@ -49,6 +53,9 @@ class PlayerDbInfoSchema(Schema):
     team_name = fields.Str()
     tgpg = fields.Float()
     otga = fields.Float()
+    otshga = fields.Float(missing=None)
+
+    home = fields.Bool(missing=None)
 
     scored = fields.Int()
 
