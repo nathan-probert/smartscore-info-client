@@ -24,6 +24,12 @@ class PlayerInfo:
     five_gpg: float = field(default=None)
     hppg: float = field(default=None)
 
+    line: str = field(default=None)
+    pp_line: str = field(default=None)
+    pk_line: str = field(default=None)
+    injury_status: str = field(default=None)
+    game_time_decision: bool = field(default=False)
+
     stat: float = field(default=None)
     odds: float = field(default=None)
     tims: bool = 0
@@ -50,6 +56,13 @@ class PlayerInfo:
     def set_tims(self, value: int):
         object.__setattr__(self, "tims", value)
 
+    def set_cur_game_stats(self, line, pp_line, pk_line, injury_status, game_time_decision):
+        object.__setattr__(self, "line", line)
+        object.__setattr__(self, "pp_line", pp_line)
+        object.__setattr__(self, "pk_line", pk_line)
+        object.__setattr__(self, "injury_status", injury_status)
+        object.__setattr__(self, "game_time_decision", game_time_decision)
+
 
 class PlayerInfoSchema(Schema):
     name = fields.Str()
@@ -60,6 +73,12 @@ class PlayerInfoSchema(Schema):
     hgpg = fields.Float()
     five_gpg = fields.Float()
     hppg = fields.Float()
+
+    line = fields.Str(allow_none=True)
+    pp_line = fields.Str(allow_none=True)
+    pk_line = fields.Str(allow_none=True)
+    injury_status = fields.Str(allow_none=True)
+    game_time_decision = fields.Bool(allow_none=True)
 
     stat = fields.Float(allow_none=True)
     odds = fields.Float(allow_none=True)
@@ -101,7 +120,6 @@ def get_hppg(_data, years: int = 3):
         if (str(season_data["season"]) in acceptable_seasons) and season_data[
             "leagueAbbrev"
         ] == "NHL":
-            print(f"season_data: {season_data}")
             ppg += season_data["powerPlayGoals"]
             games += season_data["gamesPlayed"]
 
