@@ -33,8 +33,9 @@ class PlayerDbInfo:
     tgpg: float
     otga: float
 
-    scored: int
+    scored: Optional[int]
 
+    hppg: Optional[float] = None
     otshga: Optional[float] = None
     home: Optional[bool] = None
 
@@ -49,6 +50,7 @@ class PlayerDbInfoSchema(Schema):
     gpg = fields.Float()
     hgpg = fields.Float()
     five_gpg = fields.Float()
+    hppg = fields.Float(missing=None)
 
     team_name = fields.Str()
     tgpg = fields.Float()
