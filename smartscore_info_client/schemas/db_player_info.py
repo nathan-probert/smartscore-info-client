@@ -18,32 +18,39 @@ class PlayerDbInfoC(ctypes.Structure):
 
 @dataclass(frozen=True)
 class PlayerDbInfo:
+    _id: str
+
     date: str
 
     name: str
     id: int
-    team_id: int
     gpg: float
     hgpg: float
     five_gpg: float
 
     team_name: str
-    team_abbr: str
     tgpg: float
     otga: float
 
-    stat: float
+    scored: int
 
 
 class PlayerDbInfoSchema(Schema):
+    _id = fields.Str()
+
+    date = fields.Str()
+
     name = fields.Str()
     id = fields.Int()
-    team_id = fields.Int()
-
     gpg = fields.Float()
     hgpg = fields.Float()
     five_gpg = fields.Float()
-    stat = fields.Float()
+
+    team_name = fields.Str()
+    tgpg = fields.Float()
+    otga = fields.Float()
+
+    scored = fields.Int()
 
 
 PLAYER_DB_INFO_SCHEMA = PlayerDbInfoSchema()
