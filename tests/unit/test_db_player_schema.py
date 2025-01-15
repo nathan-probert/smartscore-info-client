@@ -13,7 +13,7 @@ sample_data = {
     "tgpg": 3.31,
     "otga": 2.87,
     "scored": 1,
-    "home": True,  # Added home field
+    "home": True,
 }
 
 
@@ -28,7 +28,7 @@ def test_player_db_info_schema_serialization():
     assert serialized_data["hgpg"] == 0.1
     assert serialized_data["five_gpg"] == 0.12
     assert serialized_data["scored"] == 1
-    assert serialized_data["home"] is True  # Assert home field is present and True
+    assert serialized_data["home"] is True
 
 
 def test_player_db_info_initialization():
@@ -44,7 +44,7 @@ def test_player_db_info_initialization():
         tgpg=3.31,
         otga=2.87,
         scored=1,
-        home=True,  # Added home field
+        home=True,
     )
 
     assert player_info._id == "621f4f4c7b3b3b0001f3b3b3"
@@ -57,7 +57,7 @@ def test_player_db_info_initialization():
     assert player_info.tgpg == 3.31
     assert player_info.otga == 2.87
     assert player_info.scored == 1
-    assert player_info.home is True  # Assert home field is True
+    assert player_info.home is True
 
 
 def test_player_db_info_c_structure():
