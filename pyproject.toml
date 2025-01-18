@@ -1,19 +1,20 @@
 [tool.poetry]
 name = "smartscore-info-client"
-version = "1.1.4"
+version = "1.1.5"
 description = ""
 authors = ["Nathan Probert <nathanprobert@rogers.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.9"
 requests = "^2.32.3"
 marshmallow = "^3.22.0"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 pre-commit = "^3.8.0"
 ruff = "^0.5.5"
 pytest = "^8.2.2"
+tox = "^4.23.2"
 
 [tool.ruff]
 exclude = []
