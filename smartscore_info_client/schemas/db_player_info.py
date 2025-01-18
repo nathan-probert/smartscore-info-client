@@ -50,14 +50,14 @@ class PlayerDbInfoSchema(Schema):
     gpg = fields.Float()
     hgpg = fields.Float()
     five_gpg = fields.Float()
-    hppg = fields.Float(missing=None)
+    hppg = fields.Float(load_default=None)
 
     team_name = fields.Str()
     tgpg = fields.Float()
     otga = fields.Float()
-    otshga = fields.Float(missing=None)
+    otshga = fields.Float(load_default=None)
 
-    home = fields.Bool(missing=None)
+    home = fields.Bool(load_default=None)
 
     scored = fields.Int()
 
