@@ -1,7 +1,5 @@
 from unittest.mock import patch
-from schemas.team_info import TeamInfo, get_tgpg, get_otga
-
-from smartscore_info_client.schemas.team_info import get_otshga
+from schemas.team_info import TeamInfo, get_tgpg, get_otga, get_otshga
 
 
 @patch("schemas.team_info.requests.get")

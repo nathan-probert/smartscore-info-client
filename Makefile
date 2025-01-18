@@ -13,4 +13,4 @@ lint:
 
 test:
 	@echo Running tests
-	@poetry run pytest -v
+	@poetry run tox
