@@ -33,4 +33,4 @@ jobs:
         run: poetry install --no-root
 
       - name: Test for version
-        run: poetry run pytest
+        run: make test
