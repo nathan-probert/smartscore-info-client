@@ -39,6 +39,8 @@ class PlayerDbInfo:
     otshga: Optional[float] = None
     home: Optional[bool] = None
 
+    tims: Optional[int] = None
+
 
 class PlayerDbInfoSchema(Schema):
     _id = fields.Str()
@@ -58,6 +60,8 @@ class PlayerDbInfoSchema(Schema):
     otshga = fields.Float(load_default=None)
 
     home = fields.Bool(load_default=None)
+
+    tims = fields.Int(load_default=None)
 
     scored = fields.Int()
 

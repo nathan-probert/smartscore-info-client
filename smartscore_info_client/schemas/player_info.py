@@ -6,10 +6,11 @@ import ctypes
 
 class PlayerInfoC(ctypes.Structure):
     _fields_ = [
-        ("team_id", ctypes.c_int),
         ("gpg", ctypes.c_float),
         ("hgpg", ctypes.c_float),
         ("five_gpg", ctypes.c_float),
+        ("tgpg", ctypes.c_float),
+        ("otga", ctypes.c_float),
     ]
 
 
