@@ -37,9 +37,9 @@ class TestingPlayerInfoC(ctypes.Structure):
 
 @dataclass(frozen=True)
 class PlayerInfo:
-    name: str
-    id: int
-    team_id: int
+    name: str = field(default=None)
+    id: int = field(default=None)
+    team_id: int = field(default=None)
     date: str = field(default=None)
 
     gpg: float = field(default=None)
@@ -74,15 +74,15 @@ class PlayerInfo:
 
 
 class PlayerInfoSchema(Schema):
-    name = fields.Str()
-    id = fields.Int()
-    team_id = fields.Int()
+    name = fields.Str(allow_none=True)
+    id = fields.Int(allow_none=True)
+    team_id = fields.Int(allow_none=True)
     date = fields.Str(allow_none=True)
 
-    gpg = fields.Float()
-    hgpg = fields.Float()
-    five_gpg = fields.Float()
-    hppg = fields.Float()
+    gpg = fields.Float(allow_none=True)
+    hgpg = fields.Float(allow_none=True)
+    five_gpg = fields.Float(allow_none=True)
+    hppg = fields.Float(allow_none=True)
 
     tgpg = fields.Float(allow_none=True)
     otga = fields.Float(allow_none=True)
