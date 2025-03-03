@@ -11,6 +11,10 @@ class PlayerInfoC(ctypes.Structure):
         ("five_gpg", ctypes.c_float),
         ("tgpg", ctypes.c_float),
         ("otga", ctypes.c_float),
+        ("hppg", ctypes.c_float),
+        ("otshga", ctypes.c_float),
+        ("is_home", ctypes.c_float),
+        ("hppg_otshga", ctypes.c_float)
     ]
 
 
@@ -25,9 +29,17 @@ class PlayerInfo:
     five_gpg: float = field(default=None)
     hppg: float = field(default=None)
 
+    tgpg: float = field(default=None)
+    otga: float = field(default=None)
+    otshga: float = field(default=None)
+    is_home: bool = field(default=None)
+
+    scored: int = field(default=None)
+
     stat: float = field(default=None)
     odds: float = field(default=None)
-    tims: bool = 0
+    tims: int = field(default=None)
+
 
     def __post_init__(self):
         if self.gpg is None:
@@ -42,15 +54,6 @@ class PlayerInfo:
         object.__setattr__(self, "five_gpg", get_five_gpg(_data))
         object.__setattr__(self, "hppg", get_hppg(_data))
 
-    def set_stat(self, value: float):
-        object.__setattr__(self, "stat", value)
-
-    def set_odds(self, value: float):
-        object.__setattr__(self, "odds", value)
-
-    def set_tims(self, value: int):
-        object.__setattr__(self, "tims", value)
-
 
 class PlayerInfoSchema(Schema):
     name = fields.Str()
@@ -61,6 +64,13 @@ class PlayerInfoSchema(Schema):
     hgpg = fields.Float()
     five_gpg = fields.Float()
     hppg = fields.Float()
+
+    tgpg = fields.Float(allow_none=True)
+    otga = fields.Float(allow_none=True)
+    otshga = fields.Float(allow_none=True)
+    is_home = fields.Bool(allow_none=True)
+
+    scored = fields.Int(allow_none=True)
 
     stat = fields.Float(allow_none=True)
     odds = fields.Float(allow_none=True)

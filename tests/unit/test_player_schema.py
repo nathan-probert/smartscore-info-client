@@ -21,9 +21,6 @@ def test_manual_stat_update(mock_get, player_info_with_stats):
     assert player.hgpg == 0.55
     assert player.five_gpg == 0.6
 
-    player.set_stat(0.75)
-    assert player.stat == 0.75
-
 
 @patch("schemas.player_info.requests.get")
 def test_get_gpg(mock_get, mock_players_api_response):
