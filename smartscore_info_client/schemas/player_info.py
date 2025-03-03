@@ -18,11 +18,29 @@ class PlayerInfoC(ctypes.Structure):
     ]
 
 
+class TestingPlayerInfoC(ctypes.Structure):
+    _fields_ = [
+        ("gpg", ctypes.c_float),
+        ("hgpg", ctypes.c_float),
+        ("five_gpg", ctypes.c_float),
+        ("tgpg", ctypes.c_float),
+        ("otga", ctypes.c_float),
+        ("hppg", ctypes.c_float),
+        ("otshga", ctypes.c_float),
+        ("is_home", ctypes.c_float),
+        ("hppg_otshga", ctypes.c_float),
+        ("scored", ctypes.c_float),
+        ("tims", ctypes.c_float),
+        ("date", ctypes.c_char_p),
+    ]
+
+
 @dataclass(frozen=True)
 class PlayerInfo:
     name: str
     id: int
     team_id: int
+    date: str = field(default=None)
 
     gpg: float = field(default=None)
     hgpg: float = field(default=None)
@@ -59,6 +77,7 @@ class PlayerInfoSchema(Schema):
     name = fields.Str()
     id = fields.Int()
     team_id = fields.Int()
+    date = fields.Str(allow_none=True)
 
     gpg = fields.Float()
     hgpg = fields.Float()
