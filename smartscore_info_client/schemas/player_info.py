@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 import requests
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, post_dump
 import ctypes
 
 
@@ -95,6 +95,10 @@ class PlayerInfoSchema(Schema):
     odds = fields.Float(allow_none=True)
     tims = fields.Int(allow_none=True)
 
+    @post_dump
+    def remove_none_values(self, data, **kwargs):
+        return {key: value for key, value in data.items() if value is not None}
+
 
 PLAYER_INFO_SCHEMA = PlayerInfoSchema()
 
@@ -131,7 +135,6 @@ def get_hppg(_data, years: int = 3):
         if (str(season_data["season"]) in acceptable_seasons) and season_data[
             "leagueAbbrev"
         ] == "NHL":
-            print(f"season_data: {season_data}")
             ppg += season_data["powerPlayGoals"]
             games += season_data["gamesPlayed"]
 
