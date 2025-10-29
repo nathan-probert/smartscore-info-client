@@ -65,7 +65,7 @@ class PlayerInfo:
 
     def get_stats(self):
         URL = f"https://api-web.nhle.com/v1/player/{self.id}/landing"
-        _data = requests.get(URL, timeout=3).json()
+        _data = requests.get(URL, timeout=10).json()
 
         object.__setattr__(self, "gpg", get_gpg(_data))
         object.__setattr__(self, "hgpg", get_hgpg(_data))
