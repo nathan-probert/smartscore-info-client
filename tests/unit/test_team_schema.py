@@ -2,9 +2,9 @@ from unittest.mock import patch
 from schemas.team_info import TeamInfo, get_tgpg, get_otga, get_otshga
 
 
-@patch("schemas.team_info.requests.get")
-def test_team_info_initialization(mock_get, mock_teams_api_response):
-    mock_get.return_value.json.return_value = mock_teams_api_response
+@patch("schemas.team_info.exponential_backoff_request")
+def test_team_info_initialization(mock_request, mock_teams_api_response):
+    mock_request.return_value = mock_teams_api_response
 
     team = TeamInfo(
         team_name="Team A",

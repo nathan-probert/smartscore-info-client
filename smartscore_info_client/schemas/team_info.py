@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
 
-import requests
 from marshmallow import Schema, fields
 import ctypes
+from utility import exponential_backoff_request
 
 
 class TeamInfoC(ctypes.Structure):
@@ -32,11 +32,11 @@ class TeamInfo:
     def __post_init__(self):
         if TeamInfo._class_data_summary is None:
             URL = f"https://api.nhle.com/stats/rest/en/team/summary?cayenneExp=seasonId={self.season}%20and%20gameTypeId=2"
-            TeamInfo._class_data_summary = requests.get(URL, timeout=3).json()
+            TeamInfo._class_data_summary = exponential_backoff_request(URL)
 
         if TeamInfo._class_data_penalties is None:
             URL = f"https://api.nhle.com/stats/rest/en/team/penaltykilltime?cayenneExp=seasonId={self.season}%20and%20gameTypeId=2"
-            TeamInfo._class_data_penalties = requests.get(URL, timeout=3).json()
+            TeamInfo._class_data_penalties = exponential_backoff_request(URL)
 
         object.__setattr__(
             self, "tgpg", get_tgpg(TeamInfo._class_data_summary, self.team_id)

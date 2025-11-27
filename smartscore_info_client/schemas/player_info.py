@@ -1,8 +1,7 @@
 from dataclasses import dataclass, field
-import requests
-import time
 from marshmallow import Schema, fields, post_dump
 import ctypes
+from utility import exponential_backoff_request
 
 
 class PlayerInfoC(ctypes.Structure):
@@ -15,7 +14,7 @@ class PlayerInfoC(ctypes.Structure):
         ("hppg", ctypes.c_float),
         ("otshga", ctypes.c_float),
         ("is_home", ctypes.c_float),
-        ("hppg_otshga", ctypes.c_float)
+        ("hppg_otshga", ctypes.c_float),
     ]
 
 
@@ -58,7 +57,6 @@ class PlayerInfo:
     stat: float = field(default=None)
     odds: float = field(default=None)
     tims: int = field(default=None)
-
 
     def __post_init__(self):
         if self.gpg is None:
@@ -173,37 +171,3 @@ def get_previous_season(current_season: str) -> str:
     else:
         previous_season = f"{year_start - 1}{year_end - 1:02d}"
     return previous_season
-
-
-def exponential_backoff_request(url, method="get", data=None, json_data=None, max_retries=5, base_delay=1):
-    """
-    Makes HTTP requests with exponential backoff retry strategy.
-
-    Args:
-        url: URL to send the request to
-        method: HTTP method ("get" or "post")
-        data: Form data for POST requests
-        json_data: JSON data for POST requests
-        max_retries: Maximum number of retry attempts
-        base_delay: Base delay between retries in seconds
-
-    Returns:
-        Parsed JSON response
-    """
-    method = method.lower()
-    for attempt in range(max_retries):
-        try:
-            if method == "get":
-                response = requests.get(url, timeout=10)
-            elif method == "post":
-                response = requests.post(url, data=data, json=json_data, timeout=10)
-            else:
-                raise ValueError(f"Unsupported HTTP method: {method}")
-
-            response.raise_for_status()
-            return response.json()
-        except requests.exceptions.RequestException as e:
-            wait_time = base_delay * (2**attempt)
-            print(f"Attempt {attempt + 1} failed: {e}. Retrying in {wait_time} seconds...")
-            time.sleep(wait_time)
-    raise Exception("Max retries reached. Request failed.")
