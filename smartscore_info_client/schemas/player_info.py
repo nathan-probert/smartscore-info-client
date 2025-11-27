@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
-import requests
 from marshmallow import Schema, fields, post_dump
 import ctypes
+from utility import exponential_backoff_request
 
 
 class PlayerInfoC(ctypes.Structure):
@@ -14,7 +14,7 @@ class PlayerInfoC(ctypes.Structure):
         ("hppg", ctypes.c_float),
         ("otshga", ctypes.c_float),
         ("is_home", ctypes.c_float),
-        ("hppg_otshga", ctypes.c_float)
+        ("hppg_otshga", ctypes.c_float),
     ]
 
 
@@ -58,14 +58,13 @@ class PlayerInfo:
     odds: float = field(default=None)
     tims: int = field(default=None)
 
-
     def __post_init__(self):
         if self.gpg is None:
             self.get_stats()
 
     def get_stats(self):
         URL = f"https://api-web.nhle.com/v1/player/{self.id}/landing"
-        _data = requests.get(URL, timeout=10).json()
+        _data = exponential_backoff_request(URL)
 
         object.__setattr__(self, "gpg", get_gpg(_data))
         object.__setattr__(self, "hgpg", get_hgpg(_data))
