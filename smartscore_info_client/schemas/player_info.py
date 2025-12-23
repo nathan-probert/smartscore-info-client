@@ -1,7 +1,14 @@
 from dataclasses import dataclass, field
 from marshmallow import Schema, fields, post_dump
 import ctypes
+from enum import Enum
 from utility import exponential_backoff_request
+
+
+class InjuryStatus(Enum):
+    HEALTHY = "Healthy"
+    DAY_TO_DAY = "Day-to-day"
+    INJURED = "Injured"
 
 
 class PlayerInfoC(ctypes.Structure):
@@ -58,6 +65,8 @@ class PlayerInfo:
     odds: float = field(default=None)
     tims: int = field(default=None)
 
+    injury_status: InjuryStatus = field(default=None)
+
     def __post_init__(self):
         if self.gpg is None:
             self.get_stats()
@@ -93,6 +102,8 @@ class PlayerInfoSchema(Schema):
     stat = fields.Float(allow_none=True)
     odds = fields.Float(allow_none=True)
     tims = fields.Int(allow_none=True)
+
+    injury_status = fields.Enum(InjuryStatus, allow_none=True)
 
     @post_dump
     def remove_none_values(self, data, **kwargs):
