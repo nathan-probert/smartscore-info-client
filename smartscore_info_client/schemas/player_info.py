@@ -2,7 +2,10 @@ from dataclasses import dataclass, field
 from marshmallow import Schema, fields, post_dump
 import ctypes
 from enum import Enum
+import logging
 from utility import exponential_backoff_request
+
+logger = logging.getLogger(__name__)
 
 
 class InjuryStatus(Enum):
@@ -69,7 +72,13 @@ class PlayerInfo:
 
     def __post_init__(self):
         if self.gpg is None:
-            self.get_stats()
+            try:
+                self.get_stats()
+            except Exception as e:
+                raise RuntimeError(
+                    f"Failed to get stats for player - Name: {self.name}, ID: {self.id}, "
+                    f"Team ID: {self.team_id}, Date: {self.date}"
+                ) from e
 
     def get_stats(self):
         URL = f"https://api-web.nhle.com/v1/player/{self.id}/landing"
@@ -121,7 +130,16 @@ def get_hgpg(_data, years: int = 3):
     goals = 0
     games = 0
 
-    cur_season = str(_data["seasonTotals"][-1]["season"])
+    season_totals = _data.get("seasonTotals") or []
+
+    cur_season = (
+        str(season_totals[-1].get("season"))
+        if season_totals and isinstance(season_totals[-1], dict) and "season" in season_totals[-1]
+        else None
+    )
+
+    if not cur_season:
+        return 0.0
 
     acceptable_seasons = get_acceptable_seasons(cur_season, years)
     for season_data in _data["seasonTotals"]:
@@ -138,10 +156,14 @@ def get_hppg(_data, years: int = 3):
     ppg = 0
     games = 0
 
-    cur_season = str(_data["seasonTotals"][-1]["season"])
+    season_totals = _data.get("seasonTotals") or []
+    if not season_totals:
+        return 0.0
+
+    cur_season = str(season_totals[-1]["season"])
 
     acceptable_seasons = get_acceptable_seasons(cur_season, years)
-    for season_data in _data["seasonTotals"]:
+    for season_data in season_totals:
         if (str(season_data["season"]) in acceptable_seasons) and season_data[
             "leagueAbbrev"
         ] == "NHL":
