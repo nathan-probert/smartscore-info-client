@@ -134,7 +134,9 @@ def get_hgpg(_data, years: int = 3):
 
     cur_season = (
         str(season_totals[-1].get("season"))
-        if season_totals and isinstance(season_totals[-1], dict) and "season" in season_totals[-1]
+        if season_totals
+        and isinstance(season_totals[-1], dict)
+        and "season" in season_totals[-1]
         else None
     )
 
