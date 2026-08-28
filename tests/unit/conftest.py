@@ -1,16 +1,12 @@
 import pytest
-from schemas.player_info import PlayerInfo
+from smartscore_info_client.models.player import Player, PlayerInfo, PlayerStats
 
 
 @pytest.fixture
 def player_info_with_stats():
     yield PlayerInfo(
-        name="John Doe",
-        id=8478402,
-        team_id=12,
-        gpg=0.5,
-        hgpg=0.55,
-        five_gpg=0.6,
+        player=Player(name="John Doe", id=8478402, team_id=12),
+        stats=PlayerStats(gpg=0.5, hgpg=0.55, five_gpg=0.6, hppg=0.2),
     )
 
 
